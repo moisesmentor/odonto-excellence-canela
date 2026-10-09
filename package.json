@@ -1,0 +1,19 @@
+{
+  "name": "odonto-excellence-canela",
+  "version": "1.0.0",
+  "description": "Site institucional e de alta conversão da Odonto Excellence Canela/RS",
+  "type": "module",
+  "scripts": {
+    "start": "bun run server.ts",
+    "dev": "bun run server.ts",
+    "test": "bun test.ts"
+  },
+  "keywords": [
+    "odonto-excellence",
+    "canela-rs",
+    "dentista",
+    "seo-local"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

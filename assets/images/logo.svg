@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" width="240" height="190" fill="none">
+  <!-- Símbolo Oficial Odonto Excellence -->
+  <g transform="translate(30, 2)">
+    <!-- Bloco Preto com Frisos Brancos -->
+    <rect x="25" y="6" width="76" height="86" fill="#1C1C1C" rx="1.5" />
+    <!-- 3 Frisos horizontais brancos -->
+    <rect x="25" y="18" width="24" height="3.5" fill="#FFFFFF" />
+    <rect x="25" y="25" width="24" height="3.5" fill="#FFFFFF" />
+    <rect x="25" y="32" width="24" height="3.5" fill="#FFFFFF" />
+
+    <!-- Quadrado Vermelho Oficial -->
+    <rect x="44" y="24" width="74" height="74" fill="#B8050F" rx="1.5" />
+
+    <!-- Dente estilizado em Branco -->
+    <!-- Curva esquerda com ápice inferior -->
+    <path d="M 69 41 C 62 40, 56 46, 56 55 C 56 66, 62 76, 70 82 C 67 74, 67 63, 71 54 C 73 49, 76 43, 69 41 Z" fill="#FFFFFF" />
+    <!-- Curva direita ascendente -->
+    <path d="M 87 36 C 96 42, 100 54, 91 68 C 88 72, 87 73, 88 71 C 95 60, 96 48, 87 36 Z" fill="#FFFFFF" />
+
+    <!-- Símbolo de Marca Registrada ® -->
+    <circle cx="123" cy="94" r="5" stroke="#222222" stroke-width="0.8" fill="none" />
+    <text x="123" y="96.5" font-family="sans-serif" font-size="5" font-weight="700" fill="#222222" text-anchor="middle">R</text>
+  </g>
+
+  <!-- Tipografia Oficial: ODONTO -->
+  <text x="120" y="132" font-family="'Montserrat', sans-serif" font-size="24" font-weight="800" fill="#1C1C1C" text-anchor="middle" letter-spacing="0.22em">
+    ODONTO
+  </text>
+
+  <!-- Linha divisória horizontal -->
+  <line x1="16" y1="140" x2="224" y2="140" stroke="#1C1C1C" stroke-width="2.2" />
+
+  <!-- Tipografia Oficial: EXCELLENCE (com serifa tradicional) -->
+  <text x="120" y="166" font-family="'Playfair Display', 'Times New Roman', serif" font-size="23.5" font-weight="700" fill="#1C1C1C" text-anchor="middle" letter-spacing="0.1em">
+    EXCELLENCE
+  </text>
+</svg>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://odontoexcellencecanela.com.br/sitemap.xml

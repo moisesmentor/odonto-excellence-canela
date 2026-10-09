@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 620" width="700" height="620" fill="none">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7F8FA" />
+      <stop offset="100%" stop-color="#E9ECF0" />
+    </linearGradient>
+    <linearGradient id="skin-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FCD5B5" />
+      <stop offset="100%" stop-color="#E8B593" />
+    </linearGradient>
+    <linearGradient id="teeth-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F0F6FA" />
+    </linearGradient>
+    <linearGradient id="red-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E30613" />
+      <stop offset="100%" stop-color="#B8050F" />
+    </linearGradient>
+    <filter id="shadow-hero" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Fundo com formas orgânicas e premium -->
+  <rect width="700" height="620" rx="24" fill="url(#bg-grad)" />
+  <circle cx="560" cy="140" r="160" fill="#E30613" fill-opacity="0.04" />
+  <circle cx="120" cy="480" r="180" fill="#222222" fill-opacity="0.03" />
+
+  <!-- Ambiente Clínico Moderno sutil -->
+  <path d="M 60 520 L 640 520" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="6 6" />
+  
+  <!-- Paciente com Sorriso Radiante & Transformado -->
+  <g transform="translate(140, 50)" filter="url(#shadow-hero)">
+    <!-- Silhueta e Ombros -->
+    <path d="M 50 490 C 70 390, 140 370, 210 370 C 280 370, 350 390, 370 490 Z" fill="#2A3B4C" />
+    <!-- Colarinho / jaleco ou roupa elegante -->
+    <path d="M 160 370 L 210 440 L 260 370 Z" fill="#FFFFFF" />
+    <path d="M 200 440 L 210 490 L 220 440 Z" fill="#E30613" />
+
+    <!-- Pescoço -->
+    <rect x="175" y="270" width="70" height="110" rx="20" fill="url(#skin-grad)" />
+    
+    <!-- Cabelo fundo -->
+    <path d="M 90 200 C 80 80, 340 80, 330 200 C 340 310, 310 350, 290 360 L 130 360 C 110 350, 80 310, 90 200 Z" fill="#3D2314" />
+    
+    <!-- Cabeça e Rosto -->
+    <ellipse cx="210" cy="220" rx="90" ry="110" fill="url(#skin-grad)" />
+    
+    <!-- Olhos expressivos e felizes (sorrindo) -->
+    <path d="M 155 195 Q 175 185 190 195" stroke="#3D2314" stroke-width="4.5" stroke-linecap="round" fill="none" />
+    <path d="M 230 195 Q 245 185 265 195" stroke="#3D2314" stroke-width="4.5" stroke-linecap="round" fill="none" />
+    <!-- Sobrancelhas naturais -->
+    <path d="M 150 180 Q 175 170 192 182" stroke="#2B180C" stroke-width="3.5" stroke-linecap="round" fill="none" />
+    <path d="M 228 182 Q 245 170 270 180" stroke="#2B180C" stroke-width="3.5" stroke-linecap="round" fill="none" />
+    
+    <!-- Nariz sutil -->
+    <path d="M 208 200 L 204 235 Q 210 242 216 235" stroke="#D29A78" stroke-width="3" stroke-linecap="round" fill="none" />
+    
+    <!-- O Sorriso de Excelência: Dentes Perfeitos e Alinhados -->
+    <!-- Lábios abertos no sorriso -->
+    <path d="M 150 255 Q 210 245 270 255 Q 210 315 150 255 Z" fill="#C23B4E" />
+    
+    <!-- Arcada Dentária Superior Branca e Impecável -->
+    <path d="M 160 257 Q 210 254 260 257 Q 260 275 250 279 Q 210 286 170 279 Q 160 275 160 257 Z" fill="url(#teeth-grad)" />
+    <!-- Linhas sutis entre os dentes -->
+    <line x1="210" y1="255" x2="210" y2="283" stroke="#DDE5ED" stroke-width="1.2" />
+    <line x1="195" y1="256" x2="195" y2="280" stroke="#DDE5ED" stroke-width="1.2" />
+    <line x1="225" y1="256" x2="225" y2="280" stroke="#DDE5ED" stroke-width="1.2" />
+    <line x1="180" y1="257" x2="180" y2="277" stroke="#DDE5ED" stroke-width="1.2" />
+    <line x1="240" y1="257" x2="240" y2="277" stroke="#DDE5ED" stroke-width="1.2" />
+    
+    <!-- Brilho no dente central (efeito clareamento/faceta) -->
+    <polygon points="214,260 216,264 220,265 216,267 214,271 212,267 208,265 212,264" fill="#FFFFFF" />
+
+    <!-- Lábio inferior -->
+    <path d="M 158 268 Q 210 314 262 268 Q 210 304 158 268 Z" fill="#B32D40" />
+
+    <!-- Cabelo moderno e estilizado sobre a fronte -->
+    <path d="M 115 170 C 130 90, 290 80, 305 160 C 270 120, 200 130, 160 140 C 135 146, 120 160, 115 170 Z" fill="#4A2D1B" />
+  </g>
+
+  <!-- Selo Flutuante de Avaliação Google 5 Estrelas Canela -->
+  <g transform="translate(430, 390)" filter="url(#shadow-hero)">
+    <rect width="230" height="96" rx="16" fill="#FFFFFF" />
+    <circle cx="44" cy="48" r="24" fill="#FDE8EA" />
+    <!-- Ícone de Dente com Coroa de Excelência -->
+    <path d="M 38 46 C 36 40, 42 34, 48 37 C 52 39, 54 44, 52 50 C 50 56, 46 62, 44 63 C 42 62, 38 56, 36 50 Z" fill="#E30613" />
+    <text x="80" y="40" font-family="'Montserrat', sans-serif" font-size="14" font-weight="800" fill="#222222">5.0 no Google</text>
+    <text x="80" y="58" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="600" fill="#8A8A8A">Clínica Referência Canela</text>
+    <g transform="translate(80, 68)">
+      <polygon points="0,0 2,5 7,5 3,8 5,13 0,10 -5,13 -3,8 -7,5 -2,5" fill="#FFB800" transform="translate(7,0)" />
+      <polygon points="0,0 2,5 7,5 3,8 5,13 0,10 -5,13 -3,8 -7,5 -2,5" fill="#FFB800" transform="translate(23,0)" />
+      <polygon points="0,0 2,5 7,5 3,8 5,13 0,10 -5,13 -3,8 -7,5 -2,5" fill="#FFB800" transform="translate(39,0)" />
+      <polygon points="0,0 2,5 7,5 3,8 5,13 0,10 -5,13 -3,8 -7,5 -2,5" fill="#FFB800" transform="translate(55,0)" />
+      <polygon points="0,0 2,5 7,5 3,8 5,13 0,10 -5,13 -3,8 -7,5 -2,5" fill="#FFB800" transform="translate(71,0)" />
+    </g>
+  </g>
+</svg>
