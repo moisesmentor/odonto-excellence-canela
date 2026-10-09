@@ -1,0 +1,6 @@
+# Ignorar arquivos de execução e teste locais no deploy da Vercel
+server.ts
+test.ts
+.env.local
+.git/
+README.md
