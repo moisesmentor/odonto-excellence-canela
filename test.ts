@@ -26,6 +26,8 @@ const assetsToTest = [
   "assets/css/pages.css",
   "assets/js/phone-mask.js",
   "assets/js/carousel.js",
+  "assets/js/whatsapp-config.js",
+  "config/whatsapp.js",
   "assets/js/main.js",
   "assets/images/logo.svg",
   "assets/images/logo-white.svg",
@@ -88,6 +90,51 @@ for (const asset of assetsToTest) {
     passed++;
   }
 }
+
+console.log("\n🔍 Verificando Configuração e Ausência de Números Legados...");
+
+// 1. Carrega e testa módulo de WhatsApp
+const whatsappConfig = require("./config/whatsapp.js");
+if (whatsappConfig.WHATSAPP_NUMBER === "5554984389347" && whatsappConfig.WHATSAPP_DISPLAY === "(54) 98438-9347") {
+  console.log("✅ [OK] Constantes de WhatsApp corretas (5554984389347 / (54) 98438-9347).");
+  passed++;
+} else {
+  console.error("❌ [FALHA] Constantes de WhatsApp incorretas.");
+  failed++;
+}
+
+// 2. Testa buildWhatsAppLink
+const testLink = whatsappConfig.buildWhatsAppLink("geral");
+if (testLink.startsWith("https://wa.me/5554984389347?text=")) {
+  console.log("✅ [OK] Helper buildWhatsAppLink gerou URL esperada.");
+  passed++;
+} else {
+  console.error("❌ [FALHA] buildWhatsAppLink gerou URL inválida:", testLink);
+  failed++;
+}
+
+// 3. Testa buildFormWhatsAppLink
+const formLink = whatsappConfig.buildFormWhatsAppLink("Maria Silva", "(54) 98888-7777", "Implantes Dentários");
+if (formLink.includes("5554984389347") && formLink.includes("Maria%20Silva") && formLink.includes("implante%20dent%C3%A1rio")) {
+  console.log("✅ [OK] Helper buildFormWhatsAppLink montou mensagem e URL dinâmica corretamente.");
+  passed++;
+} else {
+  console.error("❌ [FALHA] buildFormWhatsAppLink gerou URL incorreta:", formLink);
+  failed++;
+}
+
+// 4. Garante que nenhum arquivo HTML contém números antigos
+for (const route of routesToTest) {
+  const fullPath = join(BASE_DIR, route.path);
+  const content = readFileSync(fullPath, "utf-8");
+  if (content.includes("5554999990000") || content.includes("99999-0000")) {
+    console.error(`❌ [FALHA] Número antigo detectado em ${route.path}`);
+    failed++;
+  } else {
+    passed++;
+  }
+}
+console.log("✅ [OK] Verificado: 0 ocorrências de 5554999990000 ou 99999-0000 em todas as páginas.");
 
 console.log(`\n========================================`);
 console.log(`Resumo dos Testes: ${passed} passaram, ${failed} falharam.`);

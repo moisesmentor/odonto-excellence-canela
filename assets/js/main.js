@@ -78,9 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 5. Integração dos Formulários com WhatsApp
+  // 5. Inicialização e Bind Dinâmico de Botões WhatsApp Centralizados
+  if (typeof window.buildWhatsAppLink === 'function') {
+    const whatsappElements = document.querySelectorAll('[data-whatsapp]');
+    whatsappElements.forEach(el => {
+      const key = el.getAttribute('data-whatsapp');
+      if (key && el.tagName === 'A') {
+        el.href = window.buildWhatsAppLink(key);
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }
+
+  // 6. Integração dos Formulários com WhatsApp Dinâmico por Contexto
   const bookingForms = document.querySelectorAll('.appointment-form, .conversion-form');
-  const WHATSAPP_PHONE = '5554999990000'; // Número oficial Canela/RS (padrão 54)
 
   bookingForms.forEach(form => {
     form.addEventListener('submit', (e) => {
@@ -106,15 +118,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Mensagem personalizada de alta conversão
-      const message = `Olá! Gostaria de agendar uma avaliação na Odonto Excellence Canela.\n\n*Nome:* ${name}\n*WhatsApp:* ${phone}\n*Interesse:* ${treatment}\n*Unidade:* Canela/RS`;
+      // Constrói URL usando a função helper centralizada
+      let whatsappUrl = '';
+      if (typeof window.buildFormWhatsAppLink === 'function') {
+        whatsappUrl = window.buildFormWhatsAppLink(name, phone, treatment);
+      } else {
+        const actionsMap = {
+          "Avaliação Geral": "agendar uma avaliação geral",
+          "Avaliação Geral / Check-up": "agendar uma avaliação geral",
+          "Implantes Dentários": "um orçamento para implante dentário",
+          "Facetas de Porcelana": "um orçamento para facetas de porcelana",
+          "Clareamento Dental": "um orçamento para clareamento dental",
+          "Ortodontia e Aparelhos": "um orçamento para aparelho ou alinhador invisível",
+          "Próteses Dentárias": "um orçamento para prótese dentária",
+          "Odontopediatria": "agendar uma consulta de odontopediatria",
+          "Odontopediatria (Crianças)": "agendar uma consulta de odontopediatria"
+        };
+        const action = actionsMap[treatment] || "agendar uma avaliação geral";
+        const message = `Olá! Meu nome é ${name}. Vim pelo site e gostaria de ${action} na Odonto Excellence Canela. Meu WhatsApp: ${phone}.`;
+        whatsappUrl = `https://wa.me/5554984389347?text=${encodeURIComponent(message)}`;
+      }
 
-      const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${encodeURIComponent(message)}`;
-
-      // Abre o WhatsApp diretamente
-      window.open(whatsappUrl, '_blank');
+      // Abre o WhatsApp diretamente em nova aba
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
       
-      // Feedback visual
+      // Feedback visual no botão
       const submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) {
         const originalText = submitBtn.innerHTML;
