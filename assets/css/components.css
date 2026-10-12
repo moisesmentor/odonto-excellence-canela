@@ -952,6 +952,56 @@
   margin-top: 0.35rem;
 }
 
+.form-control.input-error {
+  border-color: var(--color-primary) !important;
+  background-color: #FFF9F9 !important;
+  box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.15) !important;
+}
+
+.form-feedback {
+  display: none;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.4;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.form-feedback.success {
+  display: block;
+  background-color: #E8F5E9;
+  color: #1B5E20;
+  border: 1px solid #A5D6A7;
+}
+
+.form-feedback.error {
+  display: block;
+  background-color: #FFEBEE;
+  color: #B71C1C;
+  border: 1px solid #FFCDD2;
+}
+
+.form-privacy-note {
+  font-size: 0.78rem;
+  color: var(--color-gray-dark);
+  margin-top: 0.75rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* --------------------------------------------------------------------------
    6. BOTÃO FLUTUANTE DE WHATSAPP
    -------------------------------------------------------------------------- */

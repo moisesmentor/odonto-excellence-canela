@@ -91,37 +91,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Integração dos Formulários com WhatsApp Dinâmico por Contexto
+  // 6. Integração dos Formulários com Envio de E-mail (/api/contato) e WhatsApp
   const bookingForms = document.querySelectorAll('.appointment-form, .conversion-form');
 
   bookingForms.forEach(form => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // 1. Verificação de Honeypot anti-spam
+      const hpInput = form.querySelector('input[name="_hp_security_check"]');
+      if (hpInput && hpInput.value.trim() !== '') {
+        console.warn('Bot submission blocked via honeypot.');
+        return;
+      }
+
+      // 2. Extração dos campos
       const nameInput = form.querySelector('input[name="nome"]');
       const phoneInput = form.querySelector('input[name="whatsapp"], input[name="telefone"]');
       const treatmentInput = form.querySelector('select[name="tratamento"], input[name="tratamento"]');
+      const msgInput = form.querySelector('textarea[name="mensagem"]');
+      const feedbackBox = form.querySelector('.form-feedback');
+      const submitBtn = form.querySelector('button[type="submit"]');
 
       const name = nameInput ? nameInput.value.trim() : '';
-      const phone = phoneInput ? phoneInput.value.trim() : '';
-      const treatment = treatmentInput ? treatmentInput.value : 'Avaliação Geral';
+      const rawPhone = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+      const phoneFormatted = phoneInput ? phoneInput.value.trim() : '';
+      const treatment = treatmentInput ? treatmentInput.value.trim() : 'Avaliação Geral';
+      const message = msgInput ? msgInput.value.trim() : '';
 
-      if (!name) {
-        alert('Por favor, informe seu nome completo.');
-        if (nameInput) nameInput.focus();
+      // Helper para feedback acessível
+      const showFeedback = (msg, isSuccess = false) => {
+        if (feedbackBox) {
+          feedbackBox.textContent = msg;
+          feedbackBox.className = `form-feedback ${isSuccess ? 'success' : 'error'}`;
+          feedbackBox.style.display = 'block';
+        } else {
+          alert(msg);
+        }
+      };
+
+      const clearFeedback = () => {
+        if (feedbackBox) {
+          feedbackBox.textContent = '';
+          feedbackBox.className = 'form-feedback';
+          feedbackBox.style.display = 'none';
+        }
+      };
+
+      clearFeedback();
+
+      // 3. Validação no Front-end
+      if (!name || name.length < 2) {
+        showFeedback('Por favor, informe seu nome completo.');
+        if (nameInput) {
+          nameInput.classList.add('input-error');
+          nameInput.focus();
+        }
         return;
+      } else if (nameInput) {
+        nameInput.classList.remove('input-error');
       }
 
-      if (!phone || phone.replace(/\D/g, '').length < 10) {
-        alert('Por favor, informe um número de WhatsApp válido com DDD.');
-        if (phoneInput) phoneInput.focus();
+      if (!rawPhone || rawPhone.length < 10 || rawPhone.length > 11) {
+        showFeedback('Por favor, informe um WhatsApp válido com DDD (10 ou 11 dígitos).');
+        if (phoneInput) {
+          phoneInput.classList.add('input-error');
+          phoneInput.focus();
+        }
         return;
+      } else if (phoneInput) {
+        phoneInput.classList.remove('input-error');
       }
 
-      // Constrói URL usando a função helper centralizada
+      // 4. Construção do Link do WhatsApp pelo contexto
       let whatsappUrl = '';
       if (typeof window.buildFormWhatsAppLink === 'function') {
-        whatsappUrl = window.buildFormWhatsAppLink(name, phone, treatment);
+        whatsappUrl = window.buildFormWhatsAppLink(name, phoneFormatted, treatment);
       } else {
         const actionsMap = {
           "Avaliação Geral": "agendar uma avaliação geral",
@@ -135,24 +180,97 @@ document.addEventListener('DOMContentLoaded', () => {
           "Odontopediatria (Crianças)": "agendar uma consulta de odontopediatria"
         };
         const action = actionsMap[treatment] || "agendar uma avaliação geral";
-        const message = `Olá! Meu nome é ${name}. Vim pelo site e gostaria de ${action} na Odonto Excellence Canela. Meu WhatsApp: ${phone}.`;
-        whatsappUrl = `https://wa.me/5554984389347?text=${encodeURIComponent(message)}`;
+        const waMsg = `Olá! Meu nome é ${name}. Vim pelo site e gostaria de ${action} na Odonto Excellence Canela. Meu WhatsApp: ${phoneFormatted}.`;
+        whatsappUrl = `https://wa.me/5554984389347?text=${encodeURIComponent(waMsg)}`;
       }
 
-      // Abre o WhatsApp diretamente em nova aba
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      
-      // Feedback visual no botão
-      const submitBtn = form.querySelector('button[type="submit"]');
+      // 5. Estado visual de envio
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = 'Redirecionando para WhatsApp...';
         submitBtn.disabled = true;
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-        }, 3000);
+        submitBtn.innerHTML = `
+          <span style="display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;">
+            <svg style="animation: spin 0.8s linear infinite; width:18px; height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path></svg>
+            Enviando...
+          </span>
+        `;
       }
+
+      // 6. Chamada para a API Serverless (/api/contato)
+      const payload = {
+        nome: name,
+        whatsapp: rawPhone,
+        whatsappFormatted: phoneFormatted,
+        tratamento: treatment,
+        mensagem: message,
+        pagina: window.location.pathname,
+        dominio: window.location.hostname,
+        _hp_security_check: hpInput ? hpInput.value : ''
+      };
+
+      let emailSuccess = false;
+      try {
+        const response = await fetch('/api/contato', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          emailSuccess = true;
+        } else {
+          console.warn('API /api/contato retornou status não-200:', response.status);
+        }
+      } catch (err) {
+        console.warn('Erro de rede ao conectar à API /api/contato:', err);
+      }
+
+      // 7. Disparo de Analytics (Google Analytics, GTM, Meta Pixel)
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'lead', {
+            treatment: treatment,
+            page_path: window.location.pathname
+          });
+        }
+        if (Array.isArray(window.dataLayer)) {
+          window.dataLayer.push({
+            event: 'lead',
+            treatment: treatment,
+            page_path: window.location.pathname
+          });
+        }
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Lead', {
+            content_name: treatment
+          });
+        }
+      } catch (trackingErr) {
+        console.warn('Erro ao disparar evento de lead:', trackingErr);
+      }
+
+      // 8. Mensagem de Feedback
+      if (emailSuccess) {
+        showFeedback('Recebemos seu pedido! Em breve entraremos em contato.', true);
+        form.reset();
+      } else {
+        // Se a API de e-mail falhar, não perde o lead: avisa e abre o WhatsApp mesmo assim
+        showFeedback('Recebemos seu pedido! Conectando ao WhatsApp da clínica...', true);
+      }
+
+      // Abre o WhatsApp em nova aba com a mensagem personalizada
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+      // Restaura o botão após alguns segundos
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = originalBtnHtml;
+          submitBtn.disabled = false;
+        }
+      }, 3500);
     });
   });
 });

@@ -4,6 +4,7 @@
  */
 import { statSync, existsSync } from "fs";
 import { join, extname } from "path";
+import contactHandler from "./api/contato.js";
 
 const PORT = 3000;
 const BASE_DIR = import.meta.dir;
@@ -26,9 +27,57 @@ const MIME_TYPES: Record<string, string> = {
 
 const server = Bun.serve({
   port: PORT,
-  fetch(req) {
+  async fetch(req) {
     const url = new URL(req.url);
     let pathname = decodeURIComponent(url.pathname);
+
+    // Rota da API Serverless /api/contato
+    if (pathname === "/api/contato") {
+      let body: any = {};
+      if (req.method === "POST") {
+        try {
+          body = await req.json();
+        } catch {
+          body = {};
+        }
+      }
+
+      let statusCode = 200;
+      const headers = new Headers();
+      let responseBody: any = "";
+
+      const mockRes = {
+        status(code: number) {
+          statusCode = code;
+          return mockRes;
+        },
+        setHeader(name: string, value: string) {
+          headers.set(name, value);
+          return mockRes;
+        },
+        json(data: any) {
+          headers.set("Content-Type", "application/json; charset=utf-8");
+          responseBody = JSON.stringify(data);
+          return mockRes;
+        },
+        end() {
+          return mockRes;
+        }
+      };
+
+      const mockReq = {
+        method: req.method,
+        headers: Object.fromEntries(req.headers.entries()),
+        body
+      };
+
+      await contactHandler(mockReq as any, mockRes as any);
+
+      return new Response(responseBody, {
+        status: statusCode,
+        headers
+      });
+    }
 
     // Resolve o caminho do arquivo
     let filePath = join(BASE_DIR, pathname);

@@ -204,6 +204,10 @@
           <p style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Proporcione ao seu filho uma experiência acolhedora e positiva na Odonto Excellence Canela.</p>
 
           <form class="appointment-form">
+            <!-- Proteção anti-spam invisível -->
+            <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+              <input type="text" name="_hp_security_check" tabindex="-1" autocomplete="off">
+            </div>
             <input type="hidden" name="tratamento" value="Odontopediatria">
             <div class="form-group">
               <label class="form-label" for="odo-nome">Nome do Responsável *</label>
@@ -213,9 +217,11 @@
               <label class="form-label" for="odo-phone">WhatsApp com DDD *</label>
               <input type="tel" id="odo-phone" name="whatsapp" class="form-control" placeholder="(54) 99999-9999" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 0.5rem;">
               Agendar Odontopediatria
             </button>
+            <div class="form-feedback" aria-live="polite"></div>
+            <p class="form-privacy-note" style="margin-bottom: 0.85rem;">Seus dados serão usados apenas para retorno sobre seu atendimento.</p>
             <a href="https://wa.me/5554984389347?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20consulta%20de%20odontopediatria%20para%20meu%20filho(a)%20na%20Odonto%20Excellence%20Canela." data-whatsapp="odontopediatria" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="width: 100%;">
               Chamar no WhatsApp
             </a>
