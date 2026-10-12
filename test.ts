@@ -136,6 +136,19 @@ for (const route of routesToTest) {
 }
 console.log("✅ [OK] Verificado: 0 ocorrências de 5554999990000 ou 99999-0000 em todas as páginas.");
 
+// 5. Garante que o Instagram oficial está presente
+for (const route of routesToTest) {
+  const fullPath = join(BASE_DIR, route.path);
+  const content = readFileSync(fullPath, "utf-8");
+  if (!content.includes("https://www.instagram.com/odontoexcellencecanela/")) {
+    console.error(`❌ [FALHA] Instagram oficial ausente em ${route.path}`);
+    failed++;
+  } else {
+    passed++;
+  }
+}
+console.log("✅ [OK] Verificado: Instagram oficial presente em todas as 11 páginas.");
+
 console.log(`\n========================================`);
 console.log(`Resumo dos Testes: ${passed} passaram, ${failed} falharam.`);
 console.log(`========================================`);
