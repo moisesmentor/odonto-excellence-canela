@@ -49,6 +49,7 @@ const assetsToTest = [
   "assets/images/logo-white.svg",
   "assets/images/logo-official.png",
   "assets/images/logo-official-white.png",
+  "assets/images/favicon.png",
   "assets/images/hero-patient.svg",
   "assets/images/hero-smile.jpg",
   "assets/images/hero-desktop.avif",
