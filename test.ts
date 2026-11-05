@@ -13,7 +13,7 @@ const routesToTest = [
   { path: "tratamentos/index.html", expectedText: "Todos os Tratamentos", label: "Tratamentos (/tratamentos)" },
   { path: "implantes/index.html", expectedText: "Implantes Dentários em Canela RS", label: "Implantes (/implantes)" },
   { path: "clareamento/index.html", expectedText: "Clareamento Dental em Canela RS", label: "Clareamento (/clareamento)" },
-  { path: "facetas/index.html", expectedText: "Facetas de Porcelana em Canela RS", label: "Facetas (/facetas)" },
+  { path: "facetas/index.html", expectedText: "Facetas de Resina e Porcelana em Canela RS", label: "Facetas (/facetas)" },
   { path: "ortodontia/index.html", expectedText: "Ortodontia & Aparelhos em Canela RS", label: "Ortodontia (/ortodontia)" },
   { path: "proteses/index.html", expectedText: "Próteses Dentárias em Canela RS", label: "Próteses (/proteses)" },
   { path: "odontopediatria/index.html", expectedText: "Odontopediatria em Canela RS", label: "Odontopediatria (/odontopediatria)" },
@@ -215,6 +215,45 @@ if (hasNoIndexHeader && hasWwwRedirect) {
   failed++;
 }
 
+// 6.1 Verificação de Conteúdo Atualizado (Endereço, Diagnóstico, Facetas e Depoimentos)
+console.log("\n🔍 Verificando Atualizações de Conteúdo (Endereço, Raio-X, Facetas e Depoimentos)...");
+let contentCheckErrors = 0;
+for (const route of routesToTest) {
+  const fullPath = join(BASE_DIR, route.path);
+  const content = readFileSync(fullPath, "utf-8");
+  if (!content.includes("Rua Augusto Pestana, nº 13") || !content.includes("95680-016")) {
+    console.error(`❌ [FALHA] Novo endereço ausente em ${route.path}`);
+    contentCheckErrors++;
+  }
+  if (content.includes("Osvaldo Aranha") || content.includes("95680-000")) {
+    console.error(`❌ [FALHA] Endereço antigo encontrado em ${route.path}`);
+    contentCheckErrors++;
+  }
+  if (content.includes("Diagnóstico Digital 3D")) {
+    console.error(`❌ [FALHA] 'Diagnóstico Digital 3D' encontrado em ${route.path}`);
+    contentCheckErrors++;
+  }
+}
+
+// Depoimentos na Home
+const homeContent = readFileSync(join(BASE_DIR, "index.html"), "utf-8");
+const depoimentosValidos = ["Mariana C.", "Rodrigo S.", "Patrícia F.", "Lucas M."].every(nome => homeContent.includes(nome));
+const depoimentosAntigos = ["Mariana Castilhos", "Rodrigo Silveira", "Patrícia Fernandes", "Lucas Medeiros"].some(nome => homeContent.includes(nome));
+
+if (!depoimentosValidos || depoimentosAntigos) {
+  console.error("❌ [FALHA] Depoimentos não estão devidamente abreviados no index.html");
+  contentCheckErrors++;
+}
+
+if (contentCheckErrors === 0) {
+  console.log("✅ [OK] Novo endereço (Rua Augusto Pestana, nº 13 - CEP 95680-016) confirmado em todas as 11 páginas.");
+  console.log("✅ [OK] 0 ocorrências de 'Osvaldo Aranha', '95680-000' e 'Diagnóstico Digital 3D'.");
+  console.log("✅ [OK] Depoimentos com sobrenome abreviado (Mariana C., Rodrigo S., Patrícia F., Lucas M.) validados.");
+  passed += 3;
+} else {
+  failed += contentCheckErrors;
+}
+
 // 7. Testes unitários diretos da API /api/contato
 console.log("\n🔍 Testando API Serverless /api/contato...");
 
@@ -308,7 +347,7 @@ const emptyNameRes = await executeApiCall({
   body: {
     nome: "",
     whatsapp: "54984389347",
-    tratamento: "Facetas de Porcelana"
+    tratamento: "Facetas de Resina e Porcelana"
   }
 });
 

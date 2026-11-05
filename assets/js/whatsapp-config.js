@@ -20,7 +20,7 @@ const WHATSAPP_MESSAGES = {
   clareamento: "Olá! Vim pelo site e gostaria de um orçamento para clareamento dental na Odonto Excellence Canela.",
 
   // /facetas
-  facetas: "Olá! Vim pelo site e gostaria de um orçamento para facetas de porcelana na Odonto Excellence Canela.",
+  facetas: "Olá! Vim pelo site e gostaria de um orçamento para facetas de resina e porcelana na Odonto Excellence Canela.",
 
   // /ortodontia
   ortodontia: "Olá! Vim pelo site e gostaria de um orçamento para aparelho ou alinhador invisível na Odonto Excellence Canela.",
@@ -39,7 +39,8 @@ const FORM_TREATMENT_ACTIONS = {
   "Avaliação Geral": "agendar uma avaliação geral",
   "Avaliação Geral / Check-up": "agendar uma avaliação geral",
   "Implantes Dentários": "um orçamento para implante dentário",
-  "Facetas de Porcelana": "um orçamento para facetas de porcelana",
+  "Facetas de Resina e Porcelana": "um orçamento para facetas de resina e porcelana",
+  "Facetas de Porcelana": "um orçamento para facetas de resina e porcelana",
   "Clareamento Dental": "um orçamento para clareamento dental",
   "Ortodontia e Aparelhos": "um orçamento para aparelho ou alinhador invisível",
   "Próteses Dentárias": "um orçamento para prótese dentária",

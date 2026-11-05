@@ -29,7 +29,7 @@ Todas as páginas são rotas reais, sem hash `#`, sem parâmetros e sem a extens
 | `/tratamentos` | `tratamentos/index.html` | Catálogo geral com todos os procedimentos |
 | `/implantes` | `implantes/index.html` | Implantes Dentários e carga imediata |
 | `/clareamento` | `clareamento/index.html` | Clareamento dental a laser e caseiro |
-| `/facetas` | `facetas/index.html` | Facetas de porcelana e lentes de contato dental |
+| `/facetas` | `facetas/index.html` | Facetas de resina e porcelana e lentes de contato dental |
 | `/ortodontia` | `ortodontia/index.html` | Ortodontia, alinhadores transparentes e aparelhos |
 | `/proteses` | `proteses/index.html` | Próteses dentárias fixas e protocolo |
 | `/odontopediatria` | `odontopediatria/index.html` | Odontopediatria e atendimento infantil lúdico |
@@ -75,6 +75,6 @@ O projeto já inclui as configurações completas para os principais ambientes d
 
 - **Dados Estruturados Schema.org (`Dentist` / `LocalBusiness` / `MedicalProcedure`)** em formato JSON-LD em todas as páginas.
 - **Geolocalização exata de Canela/RS** (`latitude: -29.3653`, `longitude: -50.8122`).
-- **Palavras-chave regionais integradas**: "facetas de porcelana em Canela", "implante dentário Canela RS", "clareamento dental Canela", "dentista Serra Gaúcha".
+- **Palavras-chave regionais integradas**: "facetas de resina e porcelana em Canela", "implante dentário Canela RS", "clareamento dental Canela", "dentista Serra Gaúcha".
 - **Sitemap XML (`sitemap.xml`)** e **`robots.txt`** prontos para envio ao Google Search Console.
 - **Integração de WhatsApp com máscara brasileira**: formulário formata números em `(54) 9XXXX-XXXX` e gera mensagem pronta personalizada para a recepção da clínica.
